@@ -106,21 +106,18 @@ def view(checklist_id=None):
     birds = db(db.bird.checklist == checklist_id).select()
     return dict(checklist=c, birds=birds, url_signer=url_signer)
 
-@action('inc_bird/<checklist_id:int>/<amount:int>/<bird_id:int>')
+@action('inc_bird/<amount:int>/<bird_id:int>')
 @action.uses(db, url_signer.verify())
-def inc_bird(checklist_id, amount, bird_id):
-    c = db.checklist[checklist_id]
-    if c is None or c.created_by != get_user_email():
-        redirect(URL('view', checklist_id))
+def inc_bird(amount, bird_id):
     b = db.bird[bird_id]
     if b is None:
-        redirect(URL('view', checklist_id))
+        redirect(URL('index'))
     new_count = b.bird_count + amount
     if new_count <= 0:
         db(db.bird.id == bird_id).delete()
     else:
         b.update_record(bird_count=new_count)
-    redirect(URL('view', checklist_id))
+    redirect(URL('view', b.checklist))
         
 @action('add_species/<checklist_id:int>', method=["GET", "POST"])
 @action.uses('add_species.html', db, auth.user)
