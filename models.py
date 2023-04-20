@@ -20,4 +20,16 @@ def get_time():
 #
 ## always commit your models to avoid problems later
 
+db.define_table('checklist',
+                Field('checklist_name'),
+                Field('created_by', default=get_user_email),
+                Field('checklist_date', 'datetime', default=get_time),
+                )
+
+db.define_table('bird',
+                Field('species'),
+                Field('checklist', db.checklist), # or "reference checklist"
+                Field('bird_count', 'integer', requires=IS_INT_IN_RANGE(0, 1000000)),
+                )
+
 db.commit()

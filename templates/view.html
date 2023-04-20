@@ -1,0 +1,27 @@
+[[extend 'layout.html']]
+
+<div class="section">
+   <h1 class="title">[[=checklist.checklist_name]]</h1>
+   [[=checklist.checklist_date]]
+   <table class="table is-striped">
+      [[for b in birds:]]
+      <tr>
+         <td>
+            <a href="[[=URL('inc_bird', checklist.id, 1, b.id, signer=url_signer)]]">
+               <i class="fa fa-plus"></i>
+            </a>
+            [[=b.bird_count]]
+            <a href="[[=URL('inc_bird', checklist.id, -1, b.id, signer=url_signer)]]">
+               <i class="fa fa-minus"></i>
+            </a>
+         </td>
+         <td>[[=b.species]]</td>
+      </tr>
+      [[pass]]
+   </table>
+   <a class="button is-success" href="[[=URL('add_species', checklist.id)]]">
+      <span class="icon"><i class="fa fa-plus"></i></span>
+      <span>Add Species</span>
+   </a>
+   
+</div>
