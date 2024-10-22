@@ -21,11 +21,11 @@ app.data = {
                 new_qty = 0;
             }
             sighting.quantity = new_qty;
-            // axios.post(update_sighting_url, {
-            //     sighting_id: sighting.id,
-            //     quantity: new_qty,
-            // }).then(function (r) {
-            // });
+            axios.post(update_count_url, {
+                id: sighting.id,
+                quantity: new_qty,
+            }).then(function (r) {
+            });
         }
     }
 };

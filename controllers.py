@@ -25,7 +25,7 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
-from py4web import action, request, abort, redirect, URL
+from py4web import action, request, abort, redirect, URL, HTTP
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
@@ -58,3 +58,23 @@ def get_sightings():
     if user_email:
         sightings = db(db.sighting.user_email == user_email).select().as_list()
     return dict(sightings=sightings, user_email=user_email)
+
+@action('update_count', method="POST")
+@action.uses(db, auth.user)
+def update_count():
+    user_email = get_user_email()
+    id = request.json.get('id')
+    quantity = request.json.get('quantity')
+
+    # db((db.sighting.id == id) & 
+    #    (db.sighting.user_email == user_email)).update(quantity=quantity)
+    # return "ok"
+
+    sighting = db(db.sighting.id == id).select().first()
+    if not sighting or sighting.user_email != user_email:
+        raise HTTP(403)
+    sighting.update_record(quantity=quantity)
+    return "ok"
+
+
+        
