@@ -28,4 +28,10 @@ db.define_table(
     Field('last_updated', 'datetime', update=get_time),             
     )
 
+if db(db.sighting).isempty():
+    db.sighting.insert(species='sparrow', quantity=2, user_email="luca@ucsc.edu")
+    db.sighting.insert(species='pigeon', quantity=3, user_email="luca@ucsc.edu")
+    db.sighting.insert(species='robin', quantity=4, user_email="luca@ucsc.edu")
+    db.sighting.insert(species='bluejay', quantity=5, user_email="luca@ucsc.edu")
+
 db.commit()

@@ -26,13 +26,13 @@
     <div>
       <table class="table">
         <tbody>
-          <tr>
+          <tr v-for="(s, s_idx) in sightings">
             <td>
-              <button><span><i class="fa fa-plus"></i></span></button>
-              <button class="ml-2"><span><i class="fa fa-minus"></i></span></button>
+              <button @click="inc(s_idx, 1)"><span><i class="fa fa-plus"></i></span></button>
+              <button @click="inc(s_idx, -1)" class="ml-2"><span><i class="fa fa-minus"></i></span></button>
             </td>
-            <td> 3 </td>
-            <td> American Robin </td>
+            <td> {{ s.quantity }} </td>
+            <td> {{ s.species }} </td>
             <td>
               <button @click="delete_bird(bird.id)"><span><i class="fa fa-trash"></i></span></button>
             </td>

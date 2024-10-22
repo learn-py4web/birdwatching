@@ -14,9 +14,19 @@ app.data = {
     },
     methods: {
         // Complete as you see fit.
-        my_function: function() {
-            // This is an example.
-        },
+        inc: function (s_idx, q) {
+            let sighting = this.sightings[s_idx];
+            let new_qty = sighting.quantity + Number(q);
+            if (new_qty < 0) {
+                new_qty = 0;
+            }
+            sighting.quantity = new_qty;
+            // axios.post(update_sighting_url, {
+            //     sighting_id: sighting.id,
+            //     quantity: new_qty,
+            // }).then(function (r) {
+            // });
+        }
     }
 };
 
