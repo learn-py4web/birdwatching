@@ -39,24 +39,22 @@ local_storage_demo = LocalStorageDemo()
 
 
 @action('index')
-@action.uses('index.html', db, auth.user, local_storage_demo)
+@action.uses('index.html', db, auth)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
-        my_callback_url = URL('my_callback'),
+        get_sightings_url = URL('get_sightings'),
+        add_species_url = URL('add_species'),
+        update_count_url = URL('update_count'),
+        delete_sighting_url = URL('delete_sighting'),
     )
 
     
-@action('admin')
-@action.uses('admin.html', db, auth.user, admin)
-def admin():
-    return dict(
-        message="Welcome admin",
-    )
-
-
-@action('my_callback')
-@action.uses() # Add here things like db, auth, etc.
-def my_callback():
-    # The return value should be a dictionary that will be sent as JSON.
-    return dict(my_value=3)
+@action('get_sightings')
+@action.uses(db, auth.user)
+def get_sightings():
+    user_email = get_user_email()
+    sightings = []
+    if user_email:
+        sightings = db(db.sighting.user_email == user_email).select().as_list()
+    return dict(sightings=sightings, user_email=user_email)
