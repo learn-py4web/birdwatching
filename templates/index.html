@@ -17,7 +17,7 @@
           <input class="input" type="text" v-model="new_species" placeholder="Enter species...">
       </div>
       <div class="control">
-          <button class="button is-primary" @click="add_bird">
+          <button class="button is-primary" @click="add_species">
               Submit
           </button>
       </div>
@@ -34,7 +34,10 @@
             <td> {{ s.quantity }} </td>
             <td> {{ s.species }} </td>
             <td>
-              <button @click="delete_bird(bird.id)"><span><i class="fa fa-trash"></i></span></button>
+              <button @click="delete_species(s_idx)"><span><i class="fa fa-trash"></i></span></button>
+            </td>
+            <td>
+              <button @click="delete_species_bis(s_idx)"><span><i class="fa fa-trash-o"></i></span></button>
             </td>
           </tr>
         </tbody>
@@ -53,6 +56,7 @@
   let add_species_url = "[[=XML(add_species_url)]]";
   let update_count_url = "[[=XML(update_count_url)]]";
   let delete_sighting_url = "[[=XML(delete_sighting_url)]]";
+  let delete_sighting_bis_url = "[[=XML(delete_sighting_bis_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]

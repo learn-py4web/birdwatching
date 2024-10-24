@@ -1,0 +1,19 @@
+[[extend 'layout.html']]
+
+<style>
+[v-cloak] {
+     display: none;
+}
+</style>
+
+
+<div class="section">
+  <!-- Put here your Vue.js template -->
+  <h1 class="title">Title</h1>
+  [[=message]]
+</div>
+
+
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+[[end]]

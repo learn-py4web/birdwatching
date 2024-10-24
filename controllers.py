@@ -34,6 +34,8 @@ from .settings import ADMIN_LIST
 from .admin_fixture import Admin
 from .local_storage_fixture import LocalStorageDemo
 
+import math
+
 admin = Admin(auth, ADMIN_LIST)
 local_storage_demo = LocalStorageDemo()
 
@@ -47,6 +49,7 @@ def index():
         add_species_url = URL('add_species'),
         update_count_url = URL('update_count'),
         delete_sighting_url = URL('delete_sighting'),
+        delete_sighting_bis_url = URL('delete_sighting_bis'),
     )
 
     
@@ -56,8 +59,9 @@ def get_sightings():
     user_email = get_user_email()
     sightings = []
     if user_email:
-        sightings = db(db.sighting.user_email == user_email).select().as_list()
+        sightings = db(db.sighting.user_email == user_email).select(orderby=db.sighting.species).as_list()
     return dict(sightings=sightings, user_email=user_email)
+
 
 @action('update_count', method="POST")
 @action.uses(db, auth.user)
@@ -77,4 +81,29 @@ def update_count():
     return "ok"
 
 
-        
+@action('add_species', method="POST")
+@action.uses(db, auth.user)
+def add_species():
+    species = request.json.get('species')
+    quantity = request.json.get('quantity')
+    id = db.sighting.insert(species=species, quantity=quantity)
+    return dict(id=id)
+
+
+@action('delete_sighting', method="POST")
+@action.uses(db, auth.user)
+def delete_sighting():
+    user_email = get_user_email()
+    id = request.json.get('id')
+    db((db.sighting.id == id) & 
+       (db.sighting.user_email == user_email)).delete()
+    return "ok"
+
+@action('delete_sighting_bis', method="DELETE")
+@action.uses(db, auth.user)
+def delete_sighting():
+    user_email = get_user_email()
+    id = request.params.get('id')
+    db((db.sighting.id == id) & 
+       (db.sighting.user_email == user_email)).delete()
+    return "ok"
