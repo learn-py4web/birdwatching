@@ -34,7 +34,7 @@ from .settings import ADMIN_LIST
 from .admin_fixture import Admin
 from .local_storage_fixture import LocalStorageDemo
 
-import math
+import math, time
 
 admin = Admin(auth, ADMIN_LIST)
 local_storage_demo = LocalStorageDemo()
@@ -87,6 +87,7 @@ def add_species():
     species = request.json.get('species')
     quantity = request.json.get('quantity')
     id = db.sighting.insert(species=species, quantity=quantity)
+    time.sleep(2)
     return dict(id=id)
 
 

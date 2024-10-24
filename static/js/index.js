@@ -11,6 +11,7 @@ app.data = {
             sightings: [],
             user_email: null,
             new_species: "",
+            pending: false,
         };
     },
     methods: {
@@ -30,6 +31,7 @@ app.data = {
         },
         add_species: function () {
             let self = this;
+            self.pending = true;
             axios.post(add_species_url, {
                 species: this.new_species,
                 quantity: 1,
@@ -40,6 +42,7 @@ app.data = {
                     quantity: 1,
                 });
                 self.new_species = "";
+                self.pending = false;
             });
         }, 
         delete_species: function (s_idx) {

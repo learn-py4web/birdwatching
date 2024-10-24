@@ -3,6 +3,9 @@
 <style>
 [v-cloak] {
      display: none;
+},
+#add_species_control i.fa-spinner {
+  color: #101111 !important;
 }
 </style>
 
@@ -12,9 +15,12 @@
   <h1 class="title">Bird sightings</h1>
 
   <div v-if="user_email">
-    <div class="field has-addons">
-      <div class="control">
+    <div id="add_species_control" class="field has-addons">
+      <div class="control has-icons-right">
           <input class="input" type="text" v-model="new_species" placeholder="Enter species...">
+          <span v-if="pending" class="icon is-small is-right">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+          </span>
       </div>
       <div class="control">
           <button class="button is-primary" @click="add_species">
