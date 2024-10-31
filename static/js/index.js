@@ -70,7 +70,7 @@ app.data = {
                     // Upload the image. 
                     axios.post(add_image_url, {
                         id: sighting.id,
-                        img_url: img_url,
+                        image_url: img_url,
                     });
                 });
             reader.readAsDataURL(file);
