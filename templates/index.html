@@ -38,12 +38,12 @@
               <button @click="inc(s_idx, -1)" class="ml-2"><span><i class="fa fa-minus"></i></span></button>
             </td>
             <td> {{ s.quantity }} </td>
+            <td>
+              <button @click="upload_image(s_idx)"><span><i class="fa fa-image"></i></span></button>
+            </td>
             <td> {{ s.species }} </td>
             <td>
               <button @click="delete_species(s_idx)"><span><i class="fa fa-trash"></i></span></button>
-            </td>
-            <td>
-              <button @click="delete_species_bis(s_idx)"><span><i class="fa fa-trash-o"></i></span></button>
             </td>
           </tr>
         </tbody>
