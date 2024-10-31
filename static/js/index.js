@@ -54,15 +54,29 @@ app.data = {
                 self.sightings.splice(s_idx, 1);
             });
         },
-        delete_species_bis: function (s_idx) {
+        upload_image: function (s_idx) {
             let self = this;
-            let sighting = this.sightings[s_idx];
-            axios.delete(delete_sighting_bis_url, { 
-                params: {id: sighting.id,}
-            }).then(function (r) {
-                self.sightings.splice(s_idx, 1);
-            });
-        },
+            let file_picker = document.createElement("input");
+            file_picker.type = "file";
+            file_picker.onchange = function () {
+                let file = file_picker.files[0];
+                console.log(file.name);
+                let reader = new FileReader();
+                reader.addEventListener("load", function () {
+                    let img_url = reader.result;
+                    // Add it to the list of thumbnails for the bird. 
+                    let sighting = self.sightings[s_idx];
+                    sighting.thumbnails.push(img_url);
+                    // Upload the image. 
+                    axios.post(add_image_url, {
+                        id: sighting.id,
+                        img_url: img_url,
+                    });
+                });
+            reader.readAsDataURL(file);
+            };
+            file_picker.click();
+        }
     }
 };
 

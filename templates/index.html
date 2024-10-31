@@ -41,7 +41,16 @@
             <td>
               <button @click="upload_image(s_idx)"><span><i class="fa fa-image"></i></span></button>
             </td>
-            <td> {{ s.species }} </td>
+            <td> 
+              <div>
+                <div>{{ s.species }}</div>
+                <div class="thumbnails">
+                  <figure v-for="img_url in s.thumbnails" class="image is-24x24" />
+                    <img :src="img_url" class="thumbnail">
+                  </figure>
+                </div>
+              </div>
+            </td>
             <td>
               <button @click="delete_species(s_idx)"><span><i class="fa fa-trash"></i></span></button>
             </td>
@@ -60,6 +69,7 @@
 <script>
   let get_sightings_url = "[[=XML(get_sightings_url)]]";
   let add_species_url = "[[=XML(add_species_url)]]";
+  let add_image_url = "[[=XML(add_image_url)]]";
   let update_count_url = "[[=XML(update_count_url)]]";
   let delete_sighting_url = "[[=XML(delete_sighting_url)]]";
   let delete_sighting_bis_url = "[[=XML(delete_sighting_bis_url)]]";

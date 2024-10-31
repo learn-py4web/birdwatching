@@ -28,6 +28,13 @@ db.define_table(
     Field('last_updated', 'datetime', update=get_time),             
     )
 
+db.define_table(
+    'thumbnail',
+    Field('sighting_id', 'reference sighting'),
+    Field('image_url'),
+    Field('last_updated', 'datetime', update=get_time),
+)
+
 if db(db.sighting).isempty():
     db.sighting.insert(species='sparrow', quantity=2, user_email="luca@ucsc.edu")
     db.sighting.insert(species='pigeon', quantity=3, user_email="luca@ucsc.edu")

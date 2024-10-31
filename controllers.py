@@ -47,6 +47,7 @@ def index():
         # COMPLETE: return here any signed URLs you need.
         get_sightings_url = URL('get_sightings'),
         add_species_url = URL('add_species'),
+        add_image_url = URL('add_image'),
         update_count_url = URL('update_count'),
         delete_sighting_url = URL('delete_sighting'),
         delete_sighting_bis_url = URL('delete_sighting_bis'),
@@ -60,6 +61,10 @@ def get_sightings():
     sightings = []
     if user_email:
         sightings = db(db.sighting.user_email == user_email).select(orderby=db.sighting.species).as_list()
+    for s in sightings:
+        # We need to read all the thumbnails, and put their image urls into a string list.
+        urls = db(db.thumbnail.sighting_id == s['id']).select()
+        s['thumbnails'] = [u.image_url for u in urls]
     return dict(sightings=sightings, user_email=user_email)
 
 
@@ -88,6 +93,19 @@ def add_species():
     quantity = request.json.get('quantity')
     id = db.sighting.insert(species=species, quantity=quantity)
     time.sleep(2)
+    return dict(id=id)
+
+
+@action('add_image', method="POST")
+@action.uses(db, auth.user)
+def add_thumbnail():
+    sighting_id = request.json.get('id')
+    image_url = request.json.get('image_url')
+    # Check that this is your sigthing
+    sighting = db.sighting[sighting_id]
+    assert sighting.user_email == get_user_email()
+    # Yes. Insert the thumbnail.
+    id = db.thumbnail.insert(sighting_id=sighting_id, image_url=image_url)
     return dict(id=id)
 
 
